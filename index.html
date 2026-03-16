@@ -1,13 +1,342 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cảnh Báo Giựt Hụi Sóc Trăng</title>
+    <style>
+        :root {
+            --primary: #ff0000;
+            --dark: #000000;
+            --light: #ffffff;
+            --gray: #f4f4f4;
+            --text-muted: #666666;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Section */
+        header {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 8px solid var(--primary);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Search Bar */
+        .search-section {
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        #search {
+            width: 100%;
+            padding: 20px 30px;
+            font-size: 1.1rem;
+            border: 3px solid var(--dark);
+            border-radius: 12px;
+            outline: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        #search:focus {
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(255,0,0,0.15);
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--light);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255,0,0,0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--primary);
+            filter: grayscale(20%);
+            transition: filter 0.3s;
+        }
+
+        .card:hover img {
+            filter: grayscale(0%);
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        .card-name {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .card-nickname {
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: block;
+            font-size: 0.9rem;
+            background: #fff0f0;
+            padding: 4px 10px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+
+        .card-info {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 5px;
+        }
+
+        .card-info b {
+            color: var(--dark);
+        }
+
+        .card-amount {
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        .card-desc {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.7;
+            line-height: 1.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            header {
+                padding: 60px 20px;
+            }
+            .search-section {
+                margin-top: -30px;
+            }
+        }
+
+        /* Empty State */
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 100px 0;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CẢNH BÁO DANH SÁCH ĐỐI TƯỢNG GIỰT HỤI TẠI SÓC TRĂNG</h1>
+        <p>Trang này tổng hợp hình ảnh và thông tin các đối tượng bị phản ánh có hành vi giựt hụi nhằm cảnh báo cộng đồng.</p>
+    </header>
+
+    <div class="search-section">
+        <input type="text" id="search" placeholder="Tìm kiếm theo tên hoặc khu vực hoạt động...">
+    </div>
+
+    <div class="container">
+        <div id="grid" class="grid">
+            <!-- Dữ liệu sẽ được hiển thị tại đây -->
+        </div>
+    </div>
+
+    <footer>
+        <p>Lưu ý: Thông tin trên được tổng hợp từ phản ánh của người dân nhằm mục đích cảnh báo cộng đồng. Chúng tôi không chịu trách nhiệm về tính xác thực của thông tin. Người dân cần kiểm chứng kỹ trước khi thực hiện các giao dịch tài chính.</p>
+    </footer>
+
+    <script>
+        // Dữ liệu mẫu
+        const data = [
+            { 
+                name: "Nguyễn Văn An", 
+                nickname: "An Cụt", 
+                area: "TP. Sóc Trăng", 
+                amount: "500.000.000 VNĐ", 
+                desc: "Bỏ trốn sau khi gom tiền của hơn 20 con hụi tại khu vực Phường 2. Hiện không liên lạc được.", 
+                img: "https://picsum.photos/seed/p1/400/500?grayscale" 
+            },
+            { 
+                name: "Trần Thị Bích", 
+                nickname: "Bích Béo", 
+                area: "Mỹ Xuyên", 
+                amount: "1.200.000.000 VNĐ", 
+                desc: "Lợi dụng lòng tin để huy động vốn trái phép dưới hình thức chơi hụi lãi cao rồi tuyên bố vỡ nợ.", 
+                img: "https://picsum.photos/seed/p2/400/500?grayscale" 
+            },
+            { 
+                name: "Lê Văn Cường", 
+                nickname: "Cường Đen", 
+                area: "Trần Đề", 
+                amount: "300.000.000 VNĐ", 
+                desc: "Mất liên lạc sau khi hốt hụi chót của dây hụi 10 triệu/tháng. Có dấu hiệu tẩu tán tài sản.", 
+                img: "https://picsum.photos/seed/p3/400/500?grayscale" 
+            },
+            { 
+                name: "Phạm Thị Diễm", 
+                nickname: "Diễm Bé", 
+                area: "Vĩnh Châu", 
+                amount: "2.000.000.000 VNĐ", 
+                desc: "Chủ hụi lớn tại Vĩnh Châu, gom tiền của nhiều tiểu thương rồi bỏ trốn khỏi địa phương.", 
+                img: "https://picsum.photos/seed/p4/400/500?grayscale" 
+            },
+            { 
+                name: "Hoàng Văn Em", 
+                nickname: "Em Sẹo", 
+                area: "Long Phú", 
+                amount: "150.000.000 VNĐ", 
+                desc: "Nhiều lần hứa hẹn trả tiền nhưng liên tục thất hứa và hiện đã khóa toàn bộ máy liên lạc.", 
+                img: "https://picsum.photos/seed/p5/400/500?grayscale" 
+            },
+            { 
+                name: "Đặng Thị Hoa", 
+                nickname: "Hoa Lùn", 
+                area: "Thạnh Trị", 
+                amount: "800.000.000 VNĐ", 
+                desc: "Tổ chức hụi ma, mạo danh người khác để hốt hụi rồi bỏ trốn cùng gia đình.", 
+                img: "https://picsum.photos/seed/p6/400/500?grayscale" 
+            }
+        ];
+
+        const grid = document.getElementById('grid');
+        const searchInput = document.getElementById('search');
+
+        // Hàm hiển thị danh sách
+        function render(items) {
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="no-results">Không tìm thấy đối tượng nào phù hợp.</div>';
+                return;
+            }
+
+            grid.innerHTML = items.map(item => `
+                <div class="card">
+                    <img src="${item.img}" alt="${item.name}" referrerPolicy="no-referrer">
+                    <div class="card-content">
+                        <h2 class="card-name">${item.name}</h2>
+                        <span class="card-nickname">Biệt danh: ${item.nickname}</span>
+                        <div class="card-info">
+                            <b>Khu vực:</b> 
+                            <span>${item.area}</span>
+                        </div>
+                        <div class="card-info">
+                            <b>Số tiền giựt:</b> 
+                            <span class="card-amount">${item.amount}</span>
+                        </div>
+                        <p class="card-desc">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Xử lý tìm kiếm
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            const filtered = data.filter(i => 
+                i.name.toLowerCase().includes(val) || 
+                i.area.toLowerCase().includes(val) ||
+                i.nickname.toLowerCase().includes(val)
+            );
+            render(filtered);
+        });
+
+        // Khởi tạo ban đầu
+        render(data);
+    </script>
+</body>
 </html>
 
