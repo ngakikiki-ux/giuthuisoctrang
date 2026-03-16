@@ -192,21 +192,59 @@
         @media (max-width: 1024px) {
             .grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: 50px 15px;
+            }
             header h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                line-height: 1.2;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            .search-section {
+                margin-top: -25px;
+                padding: 0 15px;
+            }
+            #search {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+            .container {
+                padding: 0 15px 50px;
             }
             .grid {
                 grid-template-columns: 1fr;
+                gap: 25px;
             }
-            header {
-                padding: 60px 20px;
+            .card-name {
+                font-size: 1.4rem;
             }
-            .search-section {
-                margin-top: -30px;
+            .card-content {
+                padding: 20px;
+            }
+            .card img {
+                height: 220px;
+            }
+            footer {
+                padding: 40px 15px;
+            }
+            footer p {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .card-name {
+                font-size: 1.25rem;
             }
         }
 
@@ -222,8 +260,12 @@
 </head>
 <body>
     <header>
-        <h1>CẢNH BÁO DANH SÁCH ĐỐI TƯỢNG GIỰT HỤI TẠI SÓC TRĂNG</h1>
-        <p>Trang này tổng hợp hình ảnh và thông tin các đối tượng bị phản ánh có hành vi giựt hụi nhằm cảnh báo cộng đồng.</p>
+        <h1>Cảnh Báo "GIỰT HỤI" Tại Sóc Trăng</h1>
+        <p>Trang này chia sẻ thông tin cảnh báo cộng đồng về các trường hợp chậm trả, né tránh nghĩa vụ, mất liên lạc hoặc có dấu hiệu rủi ro liên quan đến hụi.</p>
+        <div style="margin-top: 20px; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 8px; display: inline-block; border: 1px solid rgba(255,0,0,0.3);">
+            <small style="color: #ff4d4d; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Lưu ý pháp lý:</small>
+            <span style="font-size: 0.9rem; margin-left: 5px; opacity: 0.9;">Hành vi lợi dụng hụi để chiếm dụng tiền có thể bị xử lý theo quy định pháp luật.</span>
+        </div>
     </header>
 
     <div class="search-section">
