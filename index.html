@@ -185,7 +185,10 @@
             width: 100%;
             height: 260px;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            object-position: center 25%; /* Căn giữa khuôn mặt */
+            transition: all 0.5s ease;
+            image-rendering: -webkit-optimize-contrast; 
+            filter: contrast(1.1) brightness(1.08) saturate(1.05); /* Chỉnh nét, sáng nhẹ và làm tươi màu da */
         }
 
         .card:hover img {
@@ -399,6 +402,28 @@
             }
         }
 
+        /* Featured Card Highlighting */
+        .card-featured {
+            border: 2px solid var(--primary) !important;
+            box-shadow: 0 10px 30px rgba(153, 27, 27, 0.2);
+            position: relative;
+        }
+
+        .badge-warning {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff0000;
+            color: white;
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            border-radius: 50px;
+            z-index: 5;
+            box-shadow: 0 4px 10px rgba(255,0,0,0.3);
+            letter-spacing: 0.05em;
+        }
+
         /* Empty State */
         .no-results {
             text-align: center;
@@ -520,6 +545,14 @@
         // Dữ liệu mẫu
         const data = [
             { 
+                name: "Trần Thị Tuyết Ngọc", 
+                nickname: "Ngọc Sang Chảnh", 
+                area: "TP. Sóc Trăng", 
+                amount: "Đang xác minh", 
+                desc: "Sống phong bạt, thích xài sang, thường xuyên khoe khoang đồ hiệu (iPhone, AirPods) để tạo lòng tin rồi né tránh nghĩa vụ trả tiền.", 
+                img: "https://i.postimg.cc/26Xv0Lhm/giuthui.png" 
+            },
+            { 
                 name: "Nguyễn Văn An", 
                 nickname: "An Cụt", 
                 area: "TP. Sóc Trăng", 
@@ -578,24 +611,27 @@
                 return;
             }
 
-            grid.innerHTML = items.map(item => `
-                <div class="card">
-                    <img src="${item.img}" alt="${item.name}" referrerPolicy="no-referrer">
-                    <div class="card-content">
-                        <h2 class="card-name">${item.name}</h2>
-                        <span class="card-nickname">Biệt danh: ${item.nickname}</span>
-                        <div class="card-info">
-                            <b>Khu vực</b> 
-                            <span class="card-area">${item.area}</span>
+            grid.innerHTML = items.map((item, index) => {
+                const isFeatured = item.name === "Trần Thị Tuyết Ngọc";
+                return `
+                    <div class="card ${isFeatured ? 'card-featured' : ''}">
+                        <img src="${item.img}" alt="${item.name}" referrerPolicy="no-referrer">
+                        <div class="card-content">
+                            <h2 class="card-name">${item.name}</h2>
+                            <span class="card-nickname">Biệt danh: ${item.nickname}</span>
+                            <div class="card-info">
+                                <b>Khu vực</b> 
+                                <span class="card-area">${item.area}</span>
+                            </div>
+                            <div class="card-info">
+                                <b>Số tiền giựt</b> 
+                                <span class="card-amount">${item.amount}</span>
+                            </div>
+                            <p class="card-desc">${item.desc}</p>
                         </div>
-                        <div class="card-info">
-                            <b>Số tiền giựt</b> 
-                            <span class="card-amount">${item.amount}</span>
-                        </div>
-                        <p class="card-desc">${item.desc}</p>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         searchInput.addEventListener('input', (e) => {
