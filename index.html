@@ -550,7 +550,10 @@
                 area: "TP. Sóc Trăng", 
                 amount: "Đang xác minh", 
                 desc: "Sống phong bạt, thích xài sang, thường xuyên khoe khoang đồ hiệu (iPhone, AirPods) để tạo lòng tin rồi né tránh nghĩa vụ trả tiền.", 
-                img: "https://i.postimg.cc/26Xv0Lhm/giuthui.png" 
+                images: [
+                    "https://i.postimg.cc/TwNMvSsn/Chat-GPT-Image-May-5-2026-11-10-34-AM.png",
+                    "https://i.postimg.cc/26Xv0Lhm/giuthui.png"
+                ]
             },
             { 
                 name: "Nguyễn Văn An", 
@@ -613,9 +616,22 @@
 
             grid.innerHTML = items.map((item, index) => {
                 const isFeatured = item.name === "Trần Thị Tuyết Ngọc";
+                const images = item.images || [item.img];
+                
+                let imageHtml = '';
+                if (images.length > 1) {
+                    imageHtml = `
+                        <div style="display: flex; height: 260px; gap: 2px;">
+                            ${images.map(src => `<img src="${src}" alt="${item.name}" style="width: 50%; height: 100%; object-fit: cover;" referrerPolicy="no-referrer">`).join('')}
+                        </div>
+                    `;
+                } else {
+                    imageHtml = `<img src="${images[0]}" alt="${item.name}" referrerPolicy="no-referrer">`;
+                }
+
                 return `
                     <div class="card ${isFeatured ? 'card-featured' : ''}">
-                        <img src="${item.img}" alt="${item.name}" referrerPolicy="no-referrer">
+                        ${imageHtml}
                         <div class="card-content">
                             <h2 class="card-name">${item.name}</h2>
                             <span class="card-nickname">Biệt danh: ${item.nickname}</span>
